@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerce_app/core/Theme/colors.dart';
 import 'package:ecommerce_app/core/Theme/styles.dart';
 import 'package:ecommerce_app/features/onBoardingScreen/Presentation/widgets/CustomText.rich.dart';
@@ -12,6 +13,6 @@ class CustomText extends StatelessWidget {
     return CustomTextRich(text: "* ", textstyle1: Styles.Montserratgrey16w300.copyWith(
       color: AppColor.orange
     ), textstyle2:Styles.Montserratgrey16w300.copyWith(
-    ), text2: "${S.of(context).sendemail}", ontap: (){});
+    ), text2: "SendEmail".tr(), ontap: (){});
   }
 }

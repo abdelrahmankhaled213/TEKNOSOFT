@@ -1,7 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerce_app/core/Theme/colors.dart';
 import 'package:ecommerce_app/core/Theme/styles.dart';
 import 'package:ecommerce_app/features/SignUp/presentation/widgets/CreateAccountForm.dart';
-import 'package:ecommerce_app/features/SignUp/presentation/widgets/Face0rGoogle.dart';
 import 'package:ecommerce_app/features/SignUp/presentation/widgets/create_an_account.dart';
 import 'package:ecommerce_app/features/onBoardingScreen/Presentation/widgets/CustomText.rich.dart';
 import 'package:ecommerce_app/generated/l10n.dart';
@@ -53,7 +53,7 @@ class SignUpView extends StatelessWidget {
                     ontap: (){
                       GoRouter.of(context).push("/LoginView");
                     },
-                      text: "${S.of(context).haveaccount} \t",
+                      text: "haveaccount".tr()+"\t",
                       textstyle1: Styles.Poppins14regular,
                       textstyle2:Styles.Montserratgrey16w300.copyWith(
                     fontSize: 14.sp,
@@ -61,7 +61,7 @@ class SignUpView extends StatelessWidget {
                                      decoration: TextDecoration.underline,
                     decorationColor: AppColor.main
 
-                  ) , text2: S.of(context).Login),
+                  ) , text2: "login".tr()),
                 ),
               )
             ],

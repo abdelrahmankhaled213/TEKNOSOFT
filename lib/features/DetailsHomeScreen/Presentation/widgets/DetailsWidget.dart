@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerce_app/core/Theme/colors.dart';
 import 'package:ecommerce_app/core/Theme/styles.dart';
 import 'package:ecommerce_app/features/Category/data/Model/ProductModel.dart';
@@ -5,7 +6,6 @@ import 'package:ecommerce_app/features/DetailsHomeScreen/Presentation/widgets/Cu
 import 'package:ecommerce_app/features/Favourites/presentation/model_view/fav_cubit.dart';
 import 'package:ecommerce_app/features/Favourites/presentation/model_view/fav_state.dart';
 import 'package:ecommerce_app/features/Home/Data/Model/getData.dart';
-import 'package:ecommerce_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -47,7 +47,7 @@ class DetailsWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        S.of(context).SIZES, style: Styles.Montserratgrey16w300.copyWith(
+                    "Sizes".tr(), style: Styles.Montserratgrey16w300.copyWith(
                           fontWeight: FontWeight.w600
                       ),),
                       SizedBox(height: 12.h,),

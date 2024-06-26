@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerce_app/core/Theme/colors.dart';
 import 'package:ecommerce_app/core/Theme/styles.dart';
 import 'package:ecommerce_app/core/routes/router.dart';
@@ -5,11 +6,9 @@ import 'package:ecommerce_app/core/widgets/CustomTextFormField.dart';
 import 'package:ecommerce_app/core/widgets/custombutton.dart';
 import 'package:ecommerce_app/features/Login/presentation/model_view/cubit.dart';
 import 'package:ecommerce_app/features/Login/presentation/model_view/cubit_state.dart';
-import 'package:ecommerce_app/features/SignUp/presentation/widgets/Face0rGoogle.dart';
 import 'package:ecommerce_app/features/onBoardingScreen/Presentation/widgets/CustomText.rich.dart';
 import 'package:ecommerce_app/generated/l10n.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -38,7 +37,7 @@ if(state is FaliureLogin){
             children: [
               CustomTextFormField(onchange: (value){
                 tomakeiteasy.email=value;
-              }, text: "Email", prefixIcon: Icons.person),
+              }, text: "email".tr(), prefixIcon: Icons.person),
               SizedBox(
                 height: MediaQuery
                     .of(context)
@@ -48,7 +47,7 @@ if(state is FaliureLogin){
               CustomTextFormField(onchange: (value){
           tomakeiteasy.password=value;
               },
-                text: S.of(context).Password,
+                text: "password".tr(),
                 obstext: tomakeiteasy.convert,
                 prefixIcon: Icons.lock,
                 iconButton: IconButton(
@@ -65,7 +64,7 @@ if(state is FaliureLogin){
                 onTap: (){
 goPush("/ForgotPasswordView", context);
                 },
-                child: Text(S.of(context).ForgotPassword
+                child: Text("forgotpassword".tr()
                   ,style:Styles.Montserratgrey16w300.copyWith(
                     fontSize: 12.sp,
                     color: AppColor.main
@@ -83,7 +82,11 @@ goPush("/ForgotPasswordView", context);
 
            ),
                  ):
-                 CustomButtonCore(color: AppColor.main,text: S.of(context).Login, touch: (){
+                 CustomButtonCore(color: AppColor.main,text: "login".tr(), touch: (){
+                   // if(FirebaseAuth.instance.currentUser?.emailVerified==false) {
+                   //   ScaffoldMessenger.of(context).showSnackBar( SnackBar(content: Text("Verfiy email".tr())));
+                   //   return;
+                   // }
           if(tomakeiteasy.loginkey.currentState!.validate()
               ){
             tomakeiteasy.loginWithEmailAndPassword();
@@ -107,7 +110,7 @@ goPush("/ForgotPasswordView", context);
             ontap: (){
               GoRouter.of(context).push("/SignUpView");
             },
-            text: S.of(context).Donthaveanaccount,
+            text: "donthaveaccount".tr(),
             textstyle1: Styles.Montserratgrey16w300.copyWith(
               fontSize: 14.sp
             ), textstyle2: Styles.Montserratgrey16w300.copyWith(
@@ -116,7 +119,7 @@ goPush("/ForgotPasswordView", context);
             decoration: TextDecoration.underline,
             decorationColor: AppColor.main
           ),
-            text2: S.of(context).Signup,
+            text2: "signup".tr(),
           ),
             ],
           ),

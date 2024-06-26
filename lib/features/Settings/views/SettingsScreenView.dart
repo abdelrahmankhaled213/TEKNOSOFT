@@ -1,11 +1,13 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerce_app/core/Theme/colors.dart';
 import 'package:ecommerce_app/core/Theme/styles.dart';
+import 'package:ecommerce_app/core/database/cachehelper.dart';
+import 'package:ecommerce_app/core/injection/injectionservice.dart';
 import 'package:ecommerce_app/core/routes/router.dart';
 import 'package:ecommerce_app/features/Settings/UserModel/usermodel.dart';
 import 'package:ecommerce_app/features/Settings/settingscubit/settingsbloc.dart';
 import 'package:ecommerce_app/features/Settings/settingscubit/settingsstate.dart';
 import 'package:ecommerce_app/features/Settings/widgets/CustomCircleAvater.dart';
-import 'package:ecommerce_app/generated/l10n.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,11 +24,6 @@ class SettingsScreenView extends StatelessWidget {
               child: CircularProgressIndicator(
                 backgroundColor: AppColor.customPurple,
               ),
-            );
-          }
-          if(snapshot.data==0){
-            return Center(
-              child: Text("No User Found"),
             );
           }
           return  SafeArea(
@@ -56,53 +53,58 @@ class SettingsScreenView extends StatelessWidget {
                       height: 20.h,
                     ),
                   ),
-                  //            SliverToBoxAdapter(
-                  //              child:  CustomButtonCore(color: AppColor.main,text: "Log out", touch: () {
-                  // FirebaseAuth.instance.signOut();
-                  // goPushReplacement("/LoginView", context);
-                  // },),
-                  //            ),
                   SliverToBoxAdapter(
-                    child: BlocBuilder<SettingsCubit,SettingsState>(
-                      builder: (cubitcontext, state) =>
-                          GestureDetector(
-                            onTap: () {
-                              showDialog(context: context, builder: (context) {
-                                return AlertDialog(
-                                  content: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text("English",style: Styles.Montserratgrey16w300,),
-                                          Radio(
-                                              activeColor: AppColor.main,value: "en",
-                                              groupValue: BlocProvider.of<SettingsCubit>(cubitcontext).currentlang, onChanged: (v){
-                                            BlocProvider.of<SettingsCubit>(cubitcontext).changeLang();
-                                          }),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 8.h,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text("Arabic",style: Styles.Montserratgrey16w300,),
-                                          Radio( activeColor: AppColor.main,value: "ar",
-                                              groupValue: BlocProvider.of<SettingsCubit>(cubitcontext).currentlang, onChanged: (V){
-                                                BlocProvider.of<SettingsCubit>(cubitcontext).changeLang();
-                                              }),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                );
-                              },);
-                            },
-                            child: ListTile(
-                              leading: Text(S.of(context).Language,style: Styles.Montserratgrey16w300,),
+                    child: GestureDetector(
+                      onTap: () {
+                        showDialog(context: context, builder: (context) {
+                          return AlertDialog(
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text("English".tr(),
+                                      style: Styles.Montserratgrey16w300,),
+                                    Radio(
+                                        activeColor: AppColor.main,value: "en",
+                                        groupValue: context.locale.languageCode,
+                          onChanged: (value) {
+                            context.setLocale(Locale("en"));
+                           getitinstance<CacheHelper>().setData(key: "lang",
+                               value: "en");
+
+
+                            // BlocProvider.of<SettingsCubit>(cubitcontext).changeLang();
+                          },
+
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 8.h,
+                                ),
+                                Row(
+                                  children: [
+                                    Text("Arabic".tr(),style:
+                                    Styles.Montserratgrey16w300,),
+                                    Radio( onChanged: (lang){
+                                      context.setLocale(Locale("ar"));
+                                      getitinstance<CacheHelper>().setData(key: "lang",
+                                          value:  "ar");
+                                    },activeColor: AppColor.main,
+                                        value: "ar",
+                                        groupValue:context.locale
+                                            .languageCode),
+                                  ],
+                                )
+                              ],
                             ),
-                          ),
+                          );
+                        },);
+                      },
+                      child: ListTile(
+                        leading: Text("Language".tr(),style: Styles.Montserratgrey16w300,),
+                      ),
                     ),
                   ),
                   SliverToBoxAdapter(child: SizedBox(
@@ -114,10 +116,10 @@ class SettingsScreenView extends StatelessWidget {
                       return  SliverToBoxAdapter(
                         child:  ListTile(
                           leading:
-                          Text(S.of(context).Darkmode,style: Styles.Montserratgrey16w300,),
+                          Text("DarkMode".tr(),style: Styles.Montserratgrey16w300,),
                           title:Switch(
-                            activeColor: AppColor.customblue,
-                            value: BlocProvider.of<SettingsCubit>(cubitcontext).switchstate
+                            activeColor: AppColor.customred,
+                            value: getitinstance<CacheHelper>().getData(key: "mode")
                             ,onChanged:(value) {
                             BlocProvider.of<SettingsCubit>(cubitcontext).changeState(value);
                           },
@@ -134,7 +136,7 @@ class SettingsScreenView extends StatelessWidget {
                   ),),
                   SliverToBoxAdapter(
                     child: ListTile(
-                      leading: Text("About us",style: Styles.Montserratgrey16w300,),
+                      leading: Text("About us".tr(),style: Styles.Montserratgrey16w300,),
                       title: IconButton(
                         onPressed: () {
                           Navigator.push(context,MaterialPageRoute(builder: (context) {
@@ -157,7 +159,7 @@ class SettingsScreenView extends StatelessWidget {
                         FirebaseAuth.instance.signOut();
                         goPushReplacement("/LoginView", context);
                       },icon:  Icon(Icons.logout,size: 20.sp,color: AppColor.customPurple,)) ,
-                      leading: Text(S.of(context).Logout,style: Styles.Montserratgrey16w300,),
+                      leading: Text("Logout".tr(),style: Styles.Montserratgrey16w300,),
                     ),
                   ),
                 ],
@@ -175,10 +177,15 @@ class AboutUsView extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
    return Scaffold(
-     body: Center(child: Text("Stylish app is a ecommerce app provides the best products with the best quality and best price in the market for you to buy them with ease and quickly ",style: Styles.LibreCaskonpink40bold.copyWith(
-       fontWeight: FontWeight.w400,
-       fontSize: 18.sp,
-     ),)),
+     body:Padding (
+       padding: EdgeInsets.symmetric(
+         horizontal: 8.w
+       ),
+       child: Center(child: Text("stylishtopic".tr(),style: Styles.LibreCaskonpink40bold.copyWith(
+         fontWeight: FontWeight.w400,
+         fontSize: 18.sp,
+       ),)),
+     ),
    );
   }
 

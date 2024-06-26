@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerce_app/core/Theme/colors.dart';
 import 'package:ecommerce_app/core/Theme/styles.dart';
 import 'package:ecommerce_app/core/injection/injectionservice.dart';
@@ -11,12 +12,7 @@ import 'package:ecommerce_app/features/Favourites/presentation/model_view/fav_cu
 import 'package:ecommerce_app/features/Home/Data/Repo/homerepo.dart';
 import 'package:ecommerce_app/features/Home/presentation/Ui/homescreenview.dart';
 import 'package:ecommerce_app/features/Home/presentation/model_view/home_cubit.dart';
-import 'package:ecommerce_app/features/Orders/Data/DataRepo/orderRepo.dart';
-import 'package:ecommerce_app/features/Orders/presentation/OrderCubit/ordercubit.dart';
-import 'package:ecommerce_app/features/Orders/presentation/views/OrderScreenView.dart';
-import 'package:ecommerce_app/features/Settings/settingscubit/settingsbloc.dart';
 import 'package:ecommerce_app/features/Settings/views/SettingsScreenView.dart';
-import 'package:ecommerce_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,9 +20,8 @@ class BottomNavigationBarView extends StatefulWidget {
   @override
   State<BottomNavigationBarView> createState() => _BottomNavigationBarViewState();
 }
-
 class _BottomNavigationBarViewState extends State<BottomNavigationBarView> {
-  static var currentindex=0;
+   var currentindex=0;
 List<Widget>screens=[
   BlocProvider(
        create: (context) =>
@@ -40,10 +35,6 @@ List<Widget>screens=[
    BlocProvider(
        create: (context) => CartCubit( cartServices: getitinstance<CartRepo>(), addressServices: getitinstance<AddressRepo>())
        ,child: CartScreenView()),
- BlocProvider(
- create: (context) =>
- OrderCubit(),
-  child: OrderScreenView()),
 
      SettingsScreenView(),
   ];
@@ -66,12 +57,19 @@ List<Widget>screens=[
         },
           items: [
           BottomNavigationBarItem
-            (icon:  Icon(Icons.home,size: 24.h,),label: S.of(context).Home),
-          BottomNavigationBarItem(icon:  Icon(Icons.favorite_border,size: 24.h,)
-              ,label:context.read<SettingsCubit>().currentlang=="en"? 'Favourites':'المفضلات'),
-          BottomNavigationBarItem(icon:  CircleAvatar(backgroundColor: currentindex==2?AppColor.customred:Colors.white,radius: currentindex==2?20.r:15.r,child: Icon(Icons.shopping_cart,size: 24.h,color:currentindex==2? Colors.white:Colors.black,)),label: S.of(context).Cart,backgroundColor: Colors.white),
-          BottomNavigationBarItem(icon: Icon(Icons.receipt,size: 24.h,),label:S.of(context).Orders),
-          BottomNavigationBarItem(icon: Icon(Icons.settings,size: 24.h,),label: S.of(context).Settings),
+            (icon:  Icon(Icons.home,size: 24.h,),label: "Home".tr()),
+          BottomNavigationBarItem(icon:  Icon(Icons.favorite_border,size: 24.h,
+              ),
+          label: "Favourites".tr(),
+          ),
+          BottomNavigationBarItem(icon:  CircleAvatar(
+              backgroundColor: currentindex==2?
+              AppColor.customred:Colors.white,radius: currentindex==
+              2?20.r:15.r,child: Icon(Icons.shopping_cart,size: 24.h,
+            color:currentindex==2? Colors.white:Colors.black,)),
+              label: "Cart".tr(),backgroundColor: Colors.white),
+          BottomNavigationBarItem(icon: Icon(Icons.settings,size
+              : 24.h,),label: "Settings".tr()),
         ],
         ),
       ),

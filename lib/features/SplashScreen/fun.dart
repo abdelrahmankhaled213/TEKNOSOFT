@@ -17,8 +17,9 @@ Future waitSplash(BuildContext context)async{
             goPushReplacement("/OnBoardingView", context);
 
             else {
-            FirebaseAuth.instance.currentUser?.emailVerified==true &&
-                FirebaseAuth.instance.currentUser != null ?
+
+                FirebaseAuth.instance.currentUser != null
+                    ?
             goPushReplacement("/BottomNavigationView", context) :
             goPushReplacement("/SignUpView", context);
           }

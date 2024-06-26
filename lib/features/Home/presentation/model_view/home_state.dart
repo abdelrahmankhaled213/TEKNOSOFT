@@ -30,3 +30,9 @@ class RemoveFavouriteState extends HomeState{
 class ChangeColorState extends HomeState{
 
 }
+class HomeInternetState extends HomeState{
+  bool connection;
+  HomeInternetState({
+    required this.connection
+});
+}

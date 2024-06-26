@@ -1,6 +1,7 @@
 import 'package:ecommerce_app/core/Theme/colors.dart';
 import 'package:ecommerce_app/core/Theme/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 Row buildRow({
@@ -19,7 +20,7 @@ required void Function() next,
         child: GestureDetector(
           onTap:prev,
           child: Text("Prev",style: Styles. Montserratgrey16w300.copyWith(
-              fontSize: 18
+              fontSize: 18.sp
           ),
           ),
         ),

@@ -1,16 +1,16 @@
+import 'package:device_preview/device_preview.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerce_app/core/Theme/theme.dart';
 import 'package:ecommerce_app/core/database/cachehelper.dart';
 import 'package:ecommerce_app/core/injection/injectionservice.dart';
-import 'package:ecommerce_app/core/networking/firebase_notification.dart';
 import 'package:ecommerce_app/core/routes/router.dart';
 import 'package:ecommerce_app/features/Settings/settingscubit/settingsbloc.dart';
 import 'package:ecommerce_app/features/Settings/settingscubit/settingsstate.dart';
 import 'package:ecommerce_app/features/functions.dart';
-import 'package:ecommerce_app/generated/l10n.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,15 +19,26 @@ makeLandOrPort();
   await CacheHelper().intializeSharedPref();
   Bloc.observer=  MyBlocObserver();
    firebaseOptions();
-  WidgetsFlutterBinding.ensureInitialized();
 await Firebase.initializeApp();
+await EasyLocalization.ensureInitialized();
+  runApp(
+  EasyLocalization(
+  supportedLocales: [
+    const Locale('en'),
+    const Locale('ar')],
+  path: 'assets/Translation', // <-- change the path of the translation files
+  fallbackLocale: Locale(  await
+  getitinstance<CacheHelper>().getData(key:"lang")??"en"),
+  child: MyApp(
 
-  runApp(const MyApp());
+  )
+  ),
+  );
+
 }
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
-
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(360, 690),
@@ -37,18 +48,13 @@ class MyApp extends StatelessWidget {
         return BlocProvider(
           create: (context) => SettingsCubit(),
           child: BlocBuilder<SettingsCubit, SettingsState>(
-            builder: (context, state) => MaterialApp.router(
-
-              locale: Locale(BlocProvider.of<SettingsCubit>(context).currentlang),
-              localizationsDelegates: [
-                S.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              supportedLocales: S.delegate.supportedLocales,
+            builder: (cubitcontext, state) => MaterialApp.router(
+              locale:context.locale,
+              supportedLocales: context.supportedLocales,
+              localizationsDelegates: context.localizationDelegates,
               title: 'My Stylish App',
-              theme: BlocProvider.of<SettingsCubit>(context).switchstate ? darkmode : lightmode,
+              theme:  getitinstance<CacheHelper>().getData(key: "mode")??false?
+              darkmode : lightmode,
               routerConfig: gorouter,
               debugShowCheckedModeBanner: false,
             ),

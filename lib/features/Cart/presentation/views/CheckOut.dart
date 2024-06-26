@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerce_app/core/Theme/colors.dart';
 import 'package:ecommerce_app/core/Theme/styles.dart';
 import 'package:ecommerce_app/core/injection/injectionservice.dart';
@@ -6,22 +7,15 @@ import 'package:ecommerce_app/core/routes/router.dart';
 import 'package:ecommerce_app/core/widgets/CustomTextFormField.dart';
 import 'package:ecommerce_app/features/Cart/Data/Repo/AddressRepo.dart';
 import 'package:ecommerce_app/features/Cart/Data/Repo/Cartrepo.dart';
-import 'package:ecommerce_app/features/Cart/Data/Services/AddressServices.dart';
-import 'package:ecommerce_app/features/Cart/Data/Services/cartservices.dart';
 import 'package:ecommerce_app/features/Cart/Data/model/Addressmodel.dart';
-import 'package:ecommerce_app/features/Cart/Data/model/cartmodel.dart';
 import 'package:ecommerce_app/features/Cart/presentation/model_view/Cubit/CartState.dart';
 import 'package:ecommerce_app/features/Cart/presentation/model_view/Cubit/cartcubit.dart';
-import 'package:ecommerce_app/features/Cart/presentation/views/OrderSuccess.dart';
 import 'package:ecommerce_app/features/Cart/presentation/widgets/ChoosePaymentMethod.dart';
 import 'package:ecommerce_app/features/Cart/presentation/widgets/CustomListViewAddress.dart';
-import 'package:ecommerce_app/features/Orders/Data/Services/orderservices.dart';
-import 'package:ecommerce_app/features/Orders/Data/model/ordermodel.dart';
 import 'package:ecommerce_app/features/Settings/settingscubit/settingsbloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
 class CheckOutScreenView extends StatelessWidget {
   int totalprice;
   CheckOutScreenView({
@@ -36,16 +30,18 @@ class CheckOutScreenView extends StatelessWidget {
             floatingActionButton: SizedBox(
               width: 100.w,
               child: FloatingActionButton(
-                child:  Text(context.read<SettingsCubit>().currentlang=="en"?"Check out":"الدفع"),
+                child:  Text("Checkout".tr()),
                 onPressed: ()async{
         if( context.read<CartCubit>().paymentvalue=="")
         {
         ScaffoldMessenger.
         of(context).showSnackBar
-          ( SnackBar(content:  Text(context.read<SettingsCubit>().currentlang=="en"?"fill the payment field":"من فضلك ادخل طريقة الدفع")));
+          ( SnackBar(content:  Text(
+            "fill the payment field".tr())));
         return;
         }
-        await insertOrderData(context,totalprice);
+
+       goPushReplacement("/OrderSplashScreen", context);
                 },
                 backgroundColor: AppColor.main,
                 elevation: 15.sp,
@@ -74,7 +70,9 @@ class CheckOutScreenView extends StatelessWidget {
                             )
                         ),
                         SliverToBoxAdapter(
-                            child:Text(context.read<SettingsCubit>().currentlang=="en"?'Choose Payment Method':"اختر طريقة الدفع",style: Styles.Montserratblack24w700.copyWith(
+                            child:Text(
+                              "Choose Payment Method".tr(),
+                              style: Styles.Montserratblack24w700.copyWith(
                                 fontSize: 15.sp,
                                 color: AppColor.main
                             ),
@@ -98,7 +96,8 @@ class CheckOutScreenView extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(context.read<SettingsCubit>().currentlang=="en"?"'Choose Address':":"اختر العنوان",style: Styles.Montserratblack24w700.copyWith(
+                              Text(
+                               "Choose Address".tr(),style: Styles.Montserratblack24w700.copyWith(
                                 fontSize: 15.sp,
                                 color: AppColor.main
                             ),
@@ -106,13 +105,15 @@ class CheckOutScreenView extends StatelessWidget {
                           BlocBuilder<CartCubit,CartState>(
                             builder: (context, state) {
                               return   TextButton(onPressed:()async {
-                                await showDialogBox(context.read<SettingsCubit>().currentlang=="en"?
-                                "Add Address":"اضافة عنوان",context,() async {
+                                await showDialogBox(
+
+
+                                    "AddAddress".tr(),context,() async {
                                   if(BlocProvider.of<CartCubit>(context).floor==null||
                                       BlocProvider.of<CartCubit>(context).name==""||
                                       BlocProvider.of<CartCubit>(context).Building==null||
                                       BlocProvider.of<CartCubit>(context).street==""||
-                                      BlocProvider.of<CartCubit>(context).city=="please choose city"
+                                      BlocProvider.of<CartCubit>(context).city=="please choose city".tr()
                                   ){
                                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content:const  Text("Fill all fields")));
                                   return;
@@ -131,7 +132,7 @@ class CheckOutScreenView extends StatelessWidget {
                                 },
                                   state
                                 );
-                              } , child: Text(context.read<SettingsCubit>().currentlang=="en"?'Add ':"اضافة",
+                              } , child: Text('Add'.tr(),
                                   style: Styles.Montserratgrey16w300.copyWith(
                                     fontSize: 15.sp,
                                   )
@@ -146,7 +147,8 @@ class CheckOutScreenView extends StatelessWidget {
                           child: BlocConsumer<CartCubit, CartState>(
                             listener: (context, state) {
                               if(state is AddressError) {
-                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Something went wrong')));
+                                ScaffoldMessenger.of(context).showSnackBar( SnackBar(content: Text(
+                                    'Something went wrong'.tr())));
                               }
                             },
                             builder: (context, state) {
@@ -198,35 +200,7 @@ class CheckOutScreenView extends StatelessWidget {
         }
     );
   }
-Orders? order;
-  Future<void> insertOrderData(BuildContext context,int totalprice ) async {
-          try{
-     order=Orders(
-      totalprice:totalprice ,
-        payment:
-    context.read<CartCubit>().paymentvalue,
-     status: "Pending"
-    , date: DateFormat('yMMMd').format(DateTime.now()).toString(), delivery: 50);
-    await context.read<CartCubit>().InsertOrderData(
-    order!);
-    // getCurrentLocation();
-Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-  return BlocProvider(
-    create: (context) {
-      return CartCubit(addressServices:getitinstance<AddressRepo>() ,
-        cartServices: getitinstance<CartRepo>(),
-      );
-    },
-    child: OrderSplashScreen(
-    ),
-  );
-}
-)
-);
-    }catch(e){
 
-    }
-  }
 }
 Future showDialogBox(String name,BuildContext contextcubit,void Function() onpressed,CartState state) {
   return showDialog(context: contextcubit, builder: (context)
@@ -235,6 +209,11 @@ Future showDialogBox(String name,BuildContext contextcubit,void Function() onpre
       "Cairo",
       "Alex",
       "Giza",
+    ];
+    var citiesar=<String>[
+      "القاهرة",
+      "الاسكندرية",
+      "الجيزة"
     ];
     return
       AlertDialog(
@@ -245,8 +224,8 @@ Future showDialogBox(String name,BuildContext contextcubit,void Function() onpre
                 children: [
                CustomTextFormField(onchange: (value) {
                  BlocProvider.of<CartCubit>(contextcubit).name=value;
-               }, text: BlocProvider.of<SettingsCubit>(contextcubit).currentlang=="en"?
-               "Enter Address":"ادخل العنوان", prefixIcon: Icons.location_on),
+               }, text:
+               "Enter Address".tr(), prefixIcon: Icons.location_on),
                   SizedBox(height: 15.h,),
                   DropdownButton(
                     borderRadius: BorderRadius.circular(25.r),
@@ -265,21 +244,20 @@ Future showDialogBox(String name,BuildContext contextcubit,void Function() onpre
                   SizedBox(height: 15.h,),
                   CustomTextFormField(onchange: (text) {
                     BlocProvider.of<CartCubit>(contextcubit).street=text;
-                  }, text: BlocProvider.of<SettingsCubit>(contextcubit).currentlang=="en"?"Enter Street":"ادخل الشارع", prefixIcon: Icons.streetview),
+                  }, text:"Enter Street".tr(), prefixIcon: Icons.streetview),
                   SizedBox(height: 15.h,),
                   CustomTextFormField(
 
   type: TextInputType.number
   ,onchange: (text) {
                     BlocProvider.of<CartCubit>(contextcubit).Building=int.parse(text);
-                  }, text: BlocProvider.of<SettingsCubit>(contextcubit)
-                      .currentlang=="en"?
-                  "Enter Building":"ادخل البناء",
+                  }, text:
+                  "Enter Building".tr(),
                       prefixIcon: Icons.home),
                   SizedBox(height: 15.h,),
                   CustomTextFormField(type: TextInputType.number,onchange: (text) {
                     BlocProvider.of<CartCubit>(contextcubit).floor=int.parse(text);
-                  }, text:  BlocProvider.of<SettingsCubit>(contextcubit).currentlang=="en"?"Enter Floor":" ادخل الطابق", prefixIcon: Icons.storefront),
+                  }, text: "Enter Floor".tr(), prefixIcon: Icons.storefront),
                 ]
             ),
 
@@ -289,7 +267,8 @@ Future showDialogBox(String name,BuildContext contextcubit,void Function() onpre
             backgroundColor: AppColor.customPurple,
           )  :TextButton(
                 onPressed: onpressed,
-                child: Text( BlocProvider.of<SettingsCubit>(contextcubit).currentlang=="en"?"Done":"تم",style:Styles.Poppins14regular)),
+                child: Text(
+                  "Done".tr(),style:Styles.Poppins14regular)),
   ]);
   });
 }

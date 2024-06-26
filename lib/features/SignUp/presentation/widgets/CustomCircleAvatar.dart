@@ -9,7 +9,6 @@ class CustomCircleAvatar extends StatelessWidget {
    required this.img,
    required this.ontap
 });
-
   @override
   Widget build(BuildContext context) {
     return   Container(

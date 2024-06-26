@@ -15,7 +15,7 @@ class OnBoardingColumn extends StatelessWidget {
         SizedBox(
           child:
           Image.asset(onboardingchange[index].image,fit: BoxFit.fill,)
-          ,height: 350.h,
+          ,height: 300.h,
           width: 350.w,)   ,
          SizedBox(
           height: 5.h,

@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerce_app/core/Theme/colors.dart';
 import 'package:ecommerce_app/core/widgets/custombutton.dart';
 import 'package:ecommerce_app/features/Cart/Data/model/cartmodel.dart';
@@ -7,12 +8,11 @@ import 'package:ecommerce_app/features/Favourites/Data/model/Favmodel.dart';
 import 'package:ecommerce_app/features/Favourites/presentation/model_view/fav_cubit.dart';
 import 'package:ecommerce_app/features/Favourites/presentation/model_view/fav_state.dart';
 import 'package:ecommerce_app/features/DetailsHomeScreen/Presentation/widgets/DetailsWidget.dart';
-import 'package:ecommerce_app/features/Home/Data/Model/getData.dart';
-import 'package:ecommerce_app/generated/l10n.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:internet_connection_checker_service/internet_connection_checker_service.dart';
 class DetailsHomeScreen extends StatefulWidget {
   Product? data  ;
   DetailsHomeScreen({
@@ -22,6 +22,7 @@ class DetailsHomeScreen extends StatefulWidget {
   State<DetailsHomeScreen> createState() => _DetailsHomeScreenState();
 }
 class _DetailsHomeScreenState extends State<DetailsHomeScreen> {
+  InternetConnectionCheckerService connectionCheckerService=InternetConnectionCheckerService();
   var id='';
   var cartid="";
   var favlist=<FavModel>[];
@@ -97,8 +98,8 @@ builder: (context, snapshot) {
                           color: Theme.of(context).colorScheme.brightness==Brightness.dark?Colors.white:Colors.black,
                         ),
                       )
-                      ,right: 5,
-                      top: 5,),
+                      ,right: 5.w,
+                      top: 5.h,),
                   )
                 ],
               )
@@ -128,9 +129,12 @@ builder: (context, snapshot) {
                     horizontal: 30.sp
                 ),
                 child: CustomButtonCore(
-                    color:BlocProvider.of<FavCubit>(context).cartstate==false?AppColor.main:AppColor.customblue ,
-                    text:BlocProvider.of<FavCubit>(context).cartstate==false? S.of(context).Addtocart:S.of(context).Removefromcart,
+                    color:BlocProvider.of<FavCubit>(context).cartstate==false?
+                    AppColor.main:AppColor.customblue ,
+                    text:BlocProvider.of<FavCubit>(context).cartstate==false?
+                    "Addtocart".tr():"Removefromcart".tr(),
                     touch: () async {
+
                       if (BlocProvider
                           .of<FavCubit>(context)
                           .cartstate == false)

@@ -1,22 +1,20 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecommerce_app/core/database/cachehelper.dart';
+import 'package:ecommerce_app/core/injection/injectionservice.dart';
 import 'package:ecommerce_app/features/Settings/UserModel/usermodel.dart';
 import 'package:ecommerce_app/features/Settings/settingscubit/settingsstate.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 class SettingsCubit extends Cubit<SettingsState>{
   SettingsCubit():super(InitState());
 var switchstate=false;
-  var currentlang="en";
+
   changeLang(){
-    if(currentlang=="en")
-      currentlang="ar";
-    else{
-      currentlang="en";
-    }
    emit(ChangeLangState());
   }
-  changeState(bool value){
+  changeState(bool value)async{
     switchstate=value;
+   await getitinstance<CacheHelper>().setData(key: "mode", value: switchstate);
     emit(ChangeSwitchState());
   }
 
@@ -35,7 +33,6 @@ var switchstate=false;
           userModel.id = element.id;
           userlist.add(userModel);
         });
-        print(userlist.length);
       }
       );
       emit(UserLoaded());

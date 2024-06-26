@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerce_app/core/Theme/colors.dart';
 import 'package:ecommerce_app/core/widgets/CustomTextFormField.dart';
 import 'package:ecommerce_app/core/widgets/custombutton.dart';
@@ -41,7 +42,7 @@ class ForgotPassword extends StatelessWidget {
               ),
               SliverToBoxAdapter(child:
               CustomTextFormField(
-                text: S.of(context).Enteryouremail,
+                text: "email".tr(),
                 prefixIcon: Icons.email,
                 onchange: (text) {
 tomakeiteasy.email=text;
@@ -64,7 +65,7 @@ tomakeiteasy.email=text;
                 touch: (){
                   tomakeiteasy.forgotPassword();
                 },
-                text: context.read<SettingsCubit>().currentlang=="en"?"Send" : "ارسال",
+                text: "Send".tr(),
               )
               ),
             ],

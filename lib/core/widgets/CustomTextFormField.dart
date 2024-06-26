@@ -10,7 +10,9 @@ void Function(String text)onchange;
 IconButton? iconButton;
 bool? obstext;
 TextInputType? type;
+void Function(String)?onsubmit;
 CustomTextFormField({
+  this.onsubmit,
   this.type,
   required this.onchange,
   required this.text,
@@ -26,6 +28,7 @@ CustomTextFormField({
       height: 55.h,
       width: 317.w,
       child: TextFormField(
+        onFieldSubmitted: onsubmit,
 keyboardType: type??TextInputType.text,
         obscureText: obstext??false,
         validator: (value) {
@@ -57,7 +60,7 @@ return null;
         hintStyle: Styles.Montserratblack24w700.copyWith(
           color: Colors.black,
           fontWeight: FontWeight.w400,
-          fontSize: 12
+          fontSize: 12.sp
         )
       ),
       ),

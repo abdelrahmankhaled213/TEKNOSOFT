@@ -33,7 +33,7 @@ CustomGridView({
                  builder: (context) => BlocProvider(create: (context) =>
                      FavCubit(getitinstance<FavRepo>(), getitinstance<CartRepo>()),child: DetailsHomeScreen(data: data[index],))));
             },
-            image:data[index].image! ,
+            image:data[index].image ,
           );
         },
       ),

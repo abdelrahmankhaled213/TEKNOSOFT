@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerce_app/core/Theme/colors.dart';
 import 'package:ecommerce_app/core/Theme/styles.dart';
 import 'package:ecommerce_app/features/Favourites/presentation/model_view/fav_cubit.dart';
@@ -32,7 +33,8 @@ class FavouritesScreenView extends StatelessWidget {
                     return
                      snapshot.data!.docs.length==0?
                      Center(child: Text(
-                          "No Favourites Added",style: Styles.LibreCaskonpink40bold)):
+                          "No Favourites Added".tr(
+                          ),style: Styles.LibreCaskonpink40bold)):
                      SizedBox(
                         width: double.infinity,
                         child: Padding(
@@ -43,8 +45,11 @@ class FavouritesScreenView extends StatelessWidget {
                               .builder(
                             itemCount: snapshot.data!.docs.length,
                             itemBuilder: (context, index) {
-                            return CustomFavouriteContainer(
-                              data: snapshot.data!.docs[index],
+                            return Align(
+                              alignment: Alignment.center,
+                              child: CustomFavouriteContainer(
+                                data: snapshot.data!.docs[index],
+                              ),
                             );
                           },
                           ),
@@ -125,7 +130,4 @@ class CustomRowFavourite extends StatelessWidget{
     }  ,child: Icon(Icons.remove_circle,color: AppColor.customred,size: 30.sp,))
    ]);
   }
-// onTapRemove(BuildContext context){
-
-// }
 }

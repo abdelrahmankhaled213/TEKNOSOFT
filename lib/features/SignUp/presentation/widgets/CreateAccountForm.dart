@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerce_app/core/Theme/colors.dart';
 import 'package:ecommerce_app/core/Theme/styles.dart';
 import 'package:ecommerce_app/core/widgets/CustomTextFormField.dart';
@@ -21,7 +22,7 @@ class CreateAnAccountForm extends StatelessWidget {
                   onchange: (text) {
                     BlocProvider.of<SignUpCubit>(context).name=text;
                   },
-                  text: S.of(context).Name,
+                  text: "name".tr(),
                   prefixIcon: Icons.person,
                 ),
                 SizedBox(
@@ -34,7 +35,7 @@ class CreateAnAccountForm extends StatelessWidget {
             onchange: (text) {
               BlocProvider.of<SignUpCubit>(context).email=text;
             },
-                  text: S.of(context).Email,
+                  text: "email".tr(),
                   prefixIcon: Icons.person,
                 ),
                 SizedBox(
@@ -54,7 +55,7 @@ class CreateAnAccountForm extends StatelessWidget {
                   onchange: (text) {
                     BlocProvider.of<SignUpCubit>(context).password=text;
                   },
-                  text: S.of(context).Password,
+                  text: "password".tr(),
                   prefixIcon: Icons.lock,
                 ),
                 SizedBox(
@@ -74,7 +75,7 @@ class CreateAnAccountForm extends StatelessWidget {
                  onchange: (text) {
                    BlocProvider.of<SignUpCubit>(context).confirmpassword=text;
                  },
-                  text: S.of(context).ConfirmPassword,
+                  text: "confirmpassword".tr(),
                   prefixIcon: Icons.lock,
                 ),
                 SizedBox(
@@ -92,7 +93,7 @@ class CreateAnAccountForm extends StatelessWidget {
                ),
             ): CustomButtonCore(
                   color: AppColor.main,
-                  text: S.of(context).createemail,
+                  text: "createemail".tr(),
                   touch: () {
                     if(
                     BlocProvider.of<SignUpCubit>(context).password!=

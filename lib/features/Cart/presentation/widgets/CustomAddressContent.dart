@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerce_app/core/Theme/styles.dart';
 import 'package:ecommerce_app/features/Cart/Data/model/Addressmodel.dart';
 import 'package:ecommerce_app/features/Settings/settingscubit/settingsbloc.dart';
@@ -18,14 +19,15 @@ class CustomAddressContent extends StatelessWidget {
           )),
           SizedBox(
             height: 5.h,),
-          Text(context.read<SettingsCubit>().currentlang=="en"?"city :\t"+address.city!:"مدينة \t"+address.city!,style: Styles.Montserratgrey16w300.copyWith(
+          Text("city".tr() +"\t"
+              +address.city!,style: Styles.Montserratgrey16w300.copyWith(
               fontSize: 12.sp,
               color: Colors.black
           )),
           SizedBox(
             height: 2.h,
           ),
-          Text(  context.read<SettingsCubit>().currentlang=="en"?"street :\t"+address.street!:" شارع :\t"+address.street!,style:Styles.Montserratgrey16w300.copyWith(
+          Text(  "street".tr()+":"+address.street!,style:Styles.Montserratgrey16w300.copyWith(
               fontSize: 12.sp,
               color: Colors.black
           )),
@@ -35,11 +37,11 @@ class CustomAddressContent extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(    context.read<SettingsCubit>().currentlang=="en"?"building :\t"+address.Building.toString()!:" بناء :\t"+address.Building.toString()!,style: Styles.Montserratgrey16w300.copyWith(
+              Text("building".tr()+":\t"+address.Building.toString(),style: Styles.Montserratgrey16w300.copyWith(
                   fontSize: 12.sp,
                   color: Colors.black
               ),),
-              Text(context.read<SettingsCubit>().currentlang=="en"?"floor :\t"+address.floor.toString()!:" طابق :\t"+address.floor.toString()!,style:
+              Text("floor".tr(),style:
               Styles.Montserratgrey16w300.copyWith(
                   fontSize: 12.sp,
                 color: Colors.black

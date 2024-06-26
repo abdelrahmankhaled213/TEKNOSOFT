@@ -13,8 +13,6 @@ import 'package:ecommerce_app/features/Home/presentation/Ui/homescreenview.dart'
 import 'package:ecommerce_app/features/Login/presentation/UI/Forgot%20Password.dart';
 import 'package:ecommerce_app/features/Login/presentation/UI/LoginView.dart';
 import 'package:ecommerce_app/features/Login/presentation/model_view/cubit.dart';
-import 'package:ecommerce_app/features/Orders/presentation/OrderCubit/ordercubit.dart';
-import 'package:ecommerce_app/features/Orders/presentation/views/OrderScreenView.dart';
 import 'package:ecommerce_app/features/Settings/UserModel/usermodel.dart';
 import 'package:ecommerce_app/features/Settings/views/UserProfileDetails.dart';
 import 'package:ecommerce_app/features/SignUp/presentation/Model_View/cubit.dart';
@@ -27,8 +25,8 @@ import 'package:go_router/go_router.dart';
 
 final  GoRouter gorouter=GoRouter(
     routes: [
-      GoRoute(path: "/OrderScreenView",builder: (context, state) => BlocProvider(
-    create: (context) => OrderCubit(),child: OrderScreenView())),
+    //   GoRoute(path: "/OrderScreenView",builder: (context, state) => BlocProvider(
+    // create: (context) => OrderCubit(),child: OrderScreenView(order: state.extra as List<OrderModel>,))),
       GoRoute(path: "/",builder: (context, state) => SplashScreen(),),
       GoRoute(path: "/OrderSplashScreen"
         ,builder: (context, state) => BlocProvider(create: (context) {
@@ -54,7 +52,8 @@ final  GoRouter gorouter=GoRouter(
       GoRoute(path: "/CategoryScreenview/:index",builder: (context, state) => BlocProvider(create: (context) => CategoryCubit(services: getitinstance<CategoryRepo>()),child: CategoryScreenView(
         index: int.parse(state.pathParameters['index']!),
       )),)
-]);
+],
+initialLocation: "/",);
 void goPush(String location,BuildContext context ,{Object? object}){
   GoRouter.of(context).push(location,extra: object??null);
 }

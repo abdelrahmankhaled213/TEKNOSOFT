@@ -4,10 +4,6 @@ import 'package:ecommerce_app/features/Cart/Data/Services/AddressServices.dart';
 import 'package:ecommerce_app/features/Cart/Data/Services/cartservices.dart';
 import 'package:ecommerce_app/features/Cart/Data/model/Addressmodel.dart';
 import 'package:ecommerce_app/features/Cart/presentation/model_view/Cubit/CartState.dart';
-import 'package:ecommerce_app/features/Orders/Data/model/ordermodel.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 class CartCubit extends Cubit<CartState> {
   final CartServices cartServices;
@@ -96,19 +92,7 @@ void selectAddress(int index){
 emit(DeleteAddressFailed( errormsg: e.toString()));
     }
   }
- InsertOrderData(Orders order)async {
-   try {
-     emit(InsertOrderLoadingDataState());
-     var result = await FirebaseFirestore.instance.collection("Order").add(
-         order.toJson());
 
-   emit(InsertOrderSuccessDataState());
-   }
-  catch(e){
-    emit(InsertOrderFailedDataState( e.toString()));
-  }
-
-  }
 
 }
  class Payment {

@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_app/features/Cart/Data/Services/AddressServices.dart';
 import 'package:ecommerce_app/features/Cart/Data/model/Addressmodel.dart';
-import 'package:ecommerce_app/features/Cart/Data/model/cartmodel.dart';
-import 'package:ecommerce_app/features/Orders/Data/model/ordermodel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 class AddressRepo implements AddressServices{
   final collection= FirebaseFirestore.instance.collection("Address");

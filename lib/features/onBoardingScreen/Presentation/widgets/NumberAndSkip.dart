@@ -41,7 +41,8 @@ CustomTextRich(
           GestureDetector(
             onTap: ()async{
            if(getitinstance<CacheHelper>().getData(key: "state")==true){
-             FirebaseAuth.instance.currentUser!.emailVerified&&FirebaseAuth.instance.currentUser!=null?
+             !FirebaseAuth.instance.currentUser!.emailVerified ||
+                 FirebaseAuth.instance.currentUser!=null?
              GoRouter.of(context).pushReplacement("/BottomNavigationView"):
              GoRouter.of(context).pushReplacement("/SignUpView");
            }else{

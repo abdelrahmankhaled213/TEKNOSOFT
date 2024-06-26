@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerce_app/core/Theme/colors.dart';
 import 'package:ecommerce_app/core/Theme/styles.dart';
 import 'package:ecommerce_app/core/injection/injectionservice.dart';
@@ -9,13 +10,9 @@ import 'package:ecommerce_app/features/Cart/Data/Repo/Cartrepo.dart';
 import 'package:ecommerce_app/features/Cart/Data/model/cartmodel.dart';
 import 'package:ecommerce_app/features/Cart/presentation/model_view/Cubit/CartState.dart';
 import 'package:ecommerce_app/features/Cart/presentation/model_view/Cubit/cartcubit.dart';
-import 'package:ecommerce_app/features/Cart/presentation/views/CartHomeScreenView.dart';
-import 'package:ecommerce_app/features/Cart/presentation/views/CartHomeScreenView.dart';
 import 'package:ecommerce_app/features/Cart/presentation/views/CheckOut.dart';
 import 'package:ecommerce_app/features/Home/presentation/widgets/customcontainer.dart';
-import 'package:ecommerce_app/features/Settings/settingscubit/settingsbloc.dart';
 import 'package:ecommerce_app/features/onBoardingScreen/Presentation/widgets/CustomText.rich.dart';
-import 'package:ecommerce_app/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -51,9 +48,22 @@ class _CartScreenViewState extends State<CartScreenView> {
           if(snapshot.hasData) {
             if(snapshot.data!.length==0) {
               return Center(
-                child: Text("Your Cart is Empty",style: Styles.Montserratblack24w700.copyWith(
-                  color: AppColor.main
-                )),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset("assets/Images/Animation - 1719417885408.gif",
+                      height: 200.h,fit: BoxFit.cover,),
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    Text(
+                    "Cart is Empty".tr(),style:Theme.of(context).brightness==Brightness.light?
+                    Styles.Montserratblack24w700:Styles.Montserratblack24w700.copyWith(
+                      color: Colors.white
+                    )),
+                  ],
+                ),
+
               );
             }
 
@@ -105,8 +115,10 @@ class _CartScreenViewState extends State<CartScreenView> {
                   SliverToBoxAdapter(
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 30.w),
-                      child: CustomButtonCore(text: S.of(context).Checkout, touch: (){
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                      child: CustomButtonCore(
+                          text:"Continue".tr(), touch: (){
+                        Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) {
                           return BlocProvider(create: (context) =>
                               CartCubit(cartServices: getitinstance<CartRepo>()
                                   , addressServices: getitinstance<AddressRepo>())
@@ -121,7 +133,7 @@ class _CartScreenViewState extends State<CartScreenView> {
               ),
             );
           }
-          return const SizedBox();
+          return const SizedBox.shrink();
         },
       )
       );
@@ -156,14 +168,14 @@ class PaymentSummary extends StatelessWidget{
          children: [
            Align(
              alignment: Alignment.centerLeft,
-             child: Text(context.read<SettingsCubit>().currentlang=="en"?"Payment Summary":"ملخص الدفع",style: Styles.Montserratblack24w700.copyWith(
+             child: Text("Payment Summary".tr(),style: Styles.Montserratblack24w700.copyWith(
                fontSize: 16.sp
              ),),
            ),
            CustomTextRich(
                ontap: (){},
-               text:context.read<SettingsCubit>().currentlang=="en"?"price\t":" السعر\t",
-               text2: "${calculateTotalPrice(cartlist: cart).toString()} Egp",
+               text:"price".tr(),
+               text2: "${calculateTotalPrice(cartlist: cart).toString()}"+"EGP".tr(),
                textstyle1: Styles.Montserratgrey16w300,
                textstyle2:Styles.Montserratgrey16w300.copyWith(
                    color: AppColor.main
@@ -174,9 +186,8 @@ class PaymentSummary extends StatelessWidget{
            ),
            CustomTextRich(
                ontap: (){},
-               text: context.read<SettingsCubit>().currentlang=="en"?"Delivery fee\t"
-                   :"التوصيل\t",
-               text2: "$deliveryfee Egp",
+               text: "Deliveryfee\t".tr(),
+               text2: "$deliveryfee "+"EGP".tr(),
                textstyle1: Styles.Montserratgrey16w300,
                textstyle2:Styles.Montserratgrey16w300.copyWith(
                    color: AppColor.main
@@ -187,8 +198,8 @@ class PaymentSummary extends StatelessWidget{
            ),
            CustomTextRich(
                ontap: (){},
-               text: context.read<SettingsCubit>().currentlang=="en"?"Total price\t":"المجموع\t",
-               text2: "${calculateTotalPrice(cartlist: cart)+deliveryfee} ",
+               text: "Totalprice".tr(),
+               text2: "${calculateTotalPrice(cartlist: cart)+deliveryfee }"+"EGP".tr() ,
                textstyle1: Styles.Montserratgrey16w300,
                textstyle2:Styles.Montserratgrey16w300.copyWith(
                    color: AppColor.main
@@ -224,17 +235,17 @@ mainAxisAlignment: MainAxisAlignment.spaceBetween,
          ),
             SizedBox(height: 5.h,),
            CustomTextRich(
-               text: "${S.of(context).Price} :", textstyle1:Styles.Montserratgrey16w300 , textstyle2: Styles.Montserratgrey16w300.copyWith(
+               text: "price".tr()+":", textstyle1:Styles.Montserratgrey16w300 , textstyle2: Styles.Montserratgrey16w300.copyWith(
              color: AppColor.main,
            ), text2: " ${cart!.price}", ontap: () {},),
             SizedBox(height: 2.h,),
             CustomTextRich(
-              text: context.read<SettingsCubit>().currentlang=="en"?"Quantity" :"كمية ", textstyle1:Styles.Montserratgrey16w300 , textstyle2: Styles.Montserratgrey16w300.copyWith(
+              text: "Quantity".tr(), textstyle1:Styles.Montserratgrey16w300 , textstyle2: Styles.Montserratgrey16w300.copyWith(
               color: AppColor.main,
             ), text2: " ${cart!.Quantitiy}", ontap: () {},),
             SizedBox(height: 2.h,),
             CustomTextRich(
-              text: context.read<SettingsCubit>().currentlang=="en"?"Size" :"حجم", textstyle1:Styles.Montserratgrey16w300 , textstyle2: Styles.Montserratgrey16w300.copyWith(
+              text: "Size".tr(), textstyle1:Styles.Montserratgrey16w300 , textstyle2: Styles.Montserratgrey16w300.copyWith(
               color: AppColor.main,
             ), text2: " ${cart!.size}", ontap: () {},),
 
@@ -252,16 +263,6 @@ mainAxisAlignment: MainAxisAlignment.spaceBetween,
         ),
     BlocConsumer<CartCubit, CartState>(
       listener: (context, state) {
-        // if(state is CartDelete){
-        //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        //     content: Text("Deleted successfully"),
-        //   ));
-        // }
-        // else if(state is CartDeleteError){
-        //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        //     content: Text(state.error),
-        //   ));
-        // }
       },
       builder: (context, state) {
         return GestureDetector(

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerce_app/core/Theme/colors.dart';
 import 'package:ecommerce_app/core/Theme/styles.dart';
 import 'package:ecommerce_app/core/routes/router.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 class BuildListViewCircleAvaters extends StatelessWidget{
+  var loc=const Locale("en");
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -21,13 +23,16 @@ goPush("/CategoryScreenView/$index", context,);
                 },
                 child: CircleAvatar(
                   radius: 25.r,
-                  backgroundImage: AssetImage(context.read<SettingsCubit>().currentlang=="en"?
+                  backgroundImage: AssetImage(context.locale
+                  ==loc?
                   categorymodelen[index].image:  categorymodelar[index].image),
                 ),
               ),
               SizedBox(height: 2.h,),
-              Text(context.read<SettingsCubit>().currentlang=="en"?
-              categorymodelen[index].name:  categorymodelar[index].name,style: Styles.Montserratgrey16w300.copyWith(
+              Text(context.locale==loc?
+              categorymodelen[index].name:
+              categorymodelar[index].name,
+                style: Styles.Montserratgrey16w300.copyWith(
                 color: Theme.of(context).colorScheme.brightness==Brightness.dark?Colors.white:AppColor.customPurple,
               ),)
             ]);
@@ -36,6 +41,4 @@ goPush("/CategoryScreenView/$index", context,);
       }, itemCount: categorymodelar.length),
     );
   }
-
-
 }

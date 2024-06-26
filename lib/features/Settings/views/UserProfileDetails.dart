@@ -1,12 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerce_app/core/Theme/colors.dart';
 import 'package:ecommerce_app/core/Theme/styles.dart';
-import 'package:ecommerce_app/core/widgets/custombutton.dart';
 import 'package:ecommerce_app/features/Settings/UserModel/usermodel.dart';
-import 'package:ecommerce_app/features/Settings/settingscubit/settingsbloc.dart';
-import 'package:ecommerce_app/features/Settings/settingscubit/settingsstate.dart';
-import 'package:ecommerce_app/features/Settings/widgets/edittextform.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 class UserScreenView extends StatelessWidget {
 final UserModel user;
@@ -55,11 +51,11 @@ final PasswordEditingController=TextEditingController();
             SliverToBoxAdapter(
               child: Column(
                  children: [
-                   Text("Email :"+user.email,style: Styles.Poppins14regular,),
+                   Text("email".tr()+":"+user.email,style: Styles.Poppins14regular,),
                    SizedBox(
                      height: 15.h,
                    ),
-                   Text("Password :"+user.password,style: Styles.Poppins14regular,),
+                   Text("password".tr()+" :"+user.password,style: Styles.Poppins14regular,),
                  ],
               ),
             ),
