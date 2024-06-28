@@ -1,4 +1,3 @@
-import 'package:device_preview/device_preview.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerce_app/core/Theme/theme.dart';
 import 'package:ecommerce_app/core/database/cachehelper.dart';
@@ -8,7 +7,6 @@ import 'package:ecommerce_app/features/Settings/settingscubit/settingsbloc.dart'
 import 'package:ecommerce_app/features/Settings/settingscubit/settingsstate.dart';
 import 'package:ecommerce_app/features/functions.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -45,20 +43,21 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return BlocProvider(
-          create: (context) => SettingsCubit(),
-          child: BlocBuilder<SettingsCubit, SettingsState>(
-            builder: (cubitcontext, state) => MaterialApp.router(
-              locale:context.locale,
-              supportedLocales: context.supportedLocales,
-              localizationsDelegates: context.localizationDelegates,
-              title: 'My Stylish App',
-              theme:  getitinstance<CacheHelper>().getData(key: "mode")??false?
-              darkmode : lightmode,
-              routerConfig: gorouter,
-              debugShowCheckedModeBanner: false,
-            ),
-          ),
+        return
+            BlocProvider(
+            create: (context) => SettingsCubit(),
+        child: BlocBuilder<SettingsCubit, SettingsState>(
+        builder: (cubitcontext, state) => MaterialApp.router(
+        locale:context.locale,
+        supportedLocales: context.supportedLocales,
+        localizationsDelegates: context.localizationDelegates,
+        title: 'My Stylish App',
+        theme:  getitinstance<CacheHelper>().getData(key: "mode")??false?
+        darkmode : lightmode,
+        routerConfig: gorouter,
+        debugShowCheckedModeBanner: false,
+        ),
+        ),
         );
       },
     );

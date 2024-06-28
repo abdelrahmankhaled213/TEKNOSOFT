@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:ecommerce_app/core/Theme/colors.dart';
 import 'package:ecommerce_app/core/Theme/styles.dart';
 import 'package:ecommerce_app/core/injection/injectionservice.dart';
+import 'package:ecommerce_app/core/networking/Networking_Bloc.dart';
 import 'package:ecommerce_app/features/Cart/Data/Repo/AddressRepo.dart';
 import 'package:ecommerce_app/features/Cart/Data/Repo/Cartrepo.dart';
 import 'package:ecommerce_app/features/Cart/presentation/model_view/Cubit/cartcubit.dart';
@@ -23,10 +24,20 @@ class BottomNavigationBarView extends StatefulWidget {
 class _BottomNavigationBarViewState extends State<BottomNavigationBarView> {
    var currentindex=0;
 List<Widget>screens=[
-  BlocProvider(
-       create: (context) =>
-           HomeCubit(getitinstance<HomeRepo>()),
-      child: HomeScreenView()),
+  MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) =>
+              HomeCubit(getitinstance<HomeRepo>()),
+        ),
+        BlocProvider(create: (context) {
+          return NetworkingBloc();
+        },
+
+        )
+      ],
+    child: HomeScreenView(),
+    ),
 
   BlocProvider(create: (context) => FavCubit(getitinstance<FavRepo>(),getitinstance<CartRepo>()),
       child: FavouritesScreenView(

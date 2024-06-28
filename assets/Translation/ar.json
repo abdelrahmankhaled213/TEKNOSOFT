@@ -57,5 +57,7 @@
   "Cart is Empty": "عربة التسوق فارغة",
   "No Favourites Added": "لم تتم اضافة اي مفضلات",
   "Search": "بحث",
-  "no data available": "لا يوجد معلومات"
+  "no data available": "لا يوجد معلومات",
+  "Connected": "متصل",
+  "No Internet Connection": "لا يوجد اتصال بشبكة الانترنت "
 }

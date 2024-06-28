@@ -72,11 +72,7 @@ class SettingsScreenView extends StatelessWidget {
                             context.setLocale(Locale("en"));
                            getitinstance<CacheHelper>().setData(key: "lang",
                                value: "en");
-
-
-                            // BlocProvider.of<SettingsCubit>(cubitcontext).changeLang();
-                          },
-
+                           },
                                     ),
                                   ],
                                 ),
@@ -118,12 +114,12 @@ class SettingsScreenView extends StatelessWidget {
                           leading:
                           Text("DarkMode".tr(),style: Styles.Montserratgrey16w300,),
                           title:Switch(
-                            activeColor: AppColor.customred,
-                            value: getitinstance<CacheHelper>().getData(key: "mode")
+                            activeColor: AppColor.customblue,
+                            value: BlocProvider.of<SettingsCubit>(cubitcontext).switchstate
                             ,onChanged:(value) {
-                            BlocProvider.of<SettingsCubit>(cubitcontext).changeState(value);
+                            BlocProvider.of<SettingsCubit>
+                              (cubitcontext).changeState(value);
                           },
-
                           ) ,
                         ),
                       );

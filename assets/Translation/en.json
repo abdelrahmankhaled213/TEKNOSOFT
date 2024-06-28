@@ -58,5 +58,7 @@
    "Cart is Empty": "Cart is Empty",
   "No Favourites Added": "No Favourites Added",
   "Search": "Search",
-  "no data available": "no data available"
+  "no data available": "no data available",
+  "Connected": "Connected",
+  "No Internet Connection": "No Internet Connection"
 }
